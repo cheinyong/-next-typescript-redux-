@@ -13,7 +13,7 @@ import {
   incrementIfOddAsync,
 } from '@/lib/redux'
 import styles from './counter.module.css'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 export const Counter = () => {
   const dispatch = useDispatch()
   const count = useSelector(selectCount)
@@ -23,7 +23,7 @@ export const Counter = () => {
     <div>
       <div className={styles.row}>
         <button
-          className={styles.button}
+          className={"btn btn-primary"}
           aria-label="Decrement value"
           onClick={() => dispatch(counterSlice.actions.decrement())}
         >
