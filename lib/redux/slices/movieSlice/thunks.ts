@@ -6,9 +6,10 @@ import type { ReduxThunkAction } from '@/lib/redux'
 import {fetchAllMovie} from "@/lib/redux/slices/movieSlice/MovieApi";
 
 export const getAllMovieAsync = createAppAsyncThunk(
-    'movie/getAllMovieAsync',
-    async () => {
+    'movie/fetchAllMovie',
+    async (arg, thunkAPI) => {
         const movies = await fetchAllMovie()
-        return movies.data
+        thunkAPI.dispatch(movieSlice.actions.loadAllMovie(movies.data))
+        return movies.data;
     }
 )
