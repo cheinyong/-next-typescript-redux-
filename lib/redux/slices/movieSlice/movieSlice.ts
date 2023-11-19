@@ -31,7 +31,13 @@ export const movieSlice = createSlice({
             state.movies =state.movies.map(movie=>
                                             movie._id==action.payload._id?
                                                 action.payload:movie)
-        }},
+        },
+        deleteMovie: (state,action:PayloadAction<Movie>) => {
+
+            state.movies =state.movies.filter(movie=>
+                                            movie._id != action.payload._id
+            )
+        },},
     extraReducers: (builder) => {
         builder
             .addCase(getAllMovieAsync.fulfilled, (state, action) => {

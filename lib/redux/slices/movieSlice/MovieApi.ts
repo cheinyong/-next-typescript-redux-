@@ -24,3 +24,10 @@ export const updateMovie=async (movie:Movie)=>{
     const movies = await result;
     return movies;
 }
+
+export const deleteMovie=async (movie:Movie)=>{
+    const result = await axios.delete(API+`/${movie._id}`)
+    console.log("axios delete update data api ",result);
+    const movies = await result;
+    return movies;
+}

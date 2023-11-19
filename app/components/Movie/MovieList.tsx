@@ -8,13 +8,15 @@ import {selectCount, selectMovie, useDispatch, useSelector} from "@/lib/redux";
 
 export default function MovieList(props:{
     movies:Movie[],
-    editHandler:(movie:Movie)=>void}){
+    editHandler:(movie:Movie)=>void,
+    deleteHandler:(movie:Movie)=>void}){
     const {movies}=props;
     return(<div>
         {movies.map((movie)=><MovieUI
                                             key={movie._id}
                                             movie={movie}
-                                            editHandler={props.editHandler}/>)}
+                                            editHandler={props.editHandler}
+                                            deleteHandler={props.deleteHandler}/>)}
 
     </div>)
 }

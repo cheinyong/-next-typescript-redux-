@@ -6,12 +6,16 @@ import {useRouter} from "next/navigation";
 
 export default function MovieUI(props: {
     movie: Movie ,
-    editHandler:(movie:Movie)=>void}) {
+    editHandler:(movie:Movie)=>void,
+    deleteHandler:(movie:Movie)=>void}) {
     let {movie}=props;
     let router=useRouter();
 
     const btneditHandler=()=>{
         props.editHandler(movie)
+    }
+    const btnDeleteHandler=()=>{
+        props.deleteHandler(movie)
     }
     const btnDetailHandler=()=>{
         router.push(`movie/${movie._id}`)
@@ -20,11 +24,13 @@ export default function MovieUI(props: {
         <h3> {movie.title}</h3>
         <div>movie director:{movie.director?.name}</div>
         <div>year:{movie.year}</div>
-        <div className='ms-auto'>
+        <div className=''>
             <button className='  btn btn-primary me-4'
                     onClick={btneditHandler}>Edit</button>
+            <button className='  btn btn-primary me-4'
+                    onClick={btnDeleteHandler}>Delete</button>
 
-            <button className='  btn btn-primary'
+            <button className=' ms-auto  btn btn-primary'
                     onClick={btnDetailHandler}>Detail</button>
         </div>
     </div>);
