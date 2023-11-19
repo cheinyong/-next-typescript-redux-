@@ -1,7 +1,7 @@
 'use client';
 import MovieList from "@/app/components/Movie/MovieList";
 import {useRouter} from "next/router";
-import {saveMovieAsync, selectMovie, useDispatch, useSelector} from "@/lib/redux";
+import {saveMovieAsync, selectMovie, updateMovieAsync, useDispatch, useSelector} from "@/lib/redux";
 import React, {useEffect, useState} from "react";
 import {getAllMovieAsync} from "@/lib/redux/slices/movieSlice/thunks";
 import Button from 'react-bootstrap/Button';
@@ -31,8 +31,8 @@ function NewOrUpdateMovieModal(props: {
     onHide: () => void,
     movieToEdit?:Movie}) {
     const dispatch = useDispatch();
-    function movieSave(values:FormikValues) {
 
+    function saveMovieAction(values: FormikValues) {
         let director = {
             name: values.director
         }
@@ -43,10 +43,41 @@ function NewOrUpdateMovieModal(props: {
         }
         console.log("create movie", movie)
         dispatch(saveMovieAsync(movie)).unwrap()
-            .then(result=>{
-                console.log("redux action result",result);
+            .then(result => {
+                console.log("redux action result", result);
                 props.onHide()
             })
+    }
+    function updateMovieAction(values: FormikValues) {
+        console.log('form values ',values);
+        let movieToUpdate:Movie={
+            ...props.movieToEdit,
+        }
+
+        movieToUpdate.title=values.title
+        movieToUpdate.year= values.year;
+        movieToUpdate.director={
+            ...props.movieToEdit?.director,
+            name:values.director
+        }
+        console.log("update movie", movieToUpdate)
+        dispatch(updateMovieAsync(movieToUpdate)).unwrap()
+            .then(result => {
+                console.log("redux action result", result);
+                props.onHide()
+            })
+    }
+
+
+    function saveOrUpdateMovie(values:FormikValues) {
+
+        if(props.movieToEdit){
+            updateMovieAction(values)
+        }
+        else {
+            saveMovieAction(values);
+        }
+
     }
      return (<div>
              <Modal show={props.show} onHide={props.onHide}>
@@ -56,17 +87,14 @@ function NewOrUpdateMovieModal(props: {
                  <Modal.Body>
                      <Formik
                          initialValues={{
-                             title: '',
-                             year: '',
-                             director: '',
+                             title:props.movieToEdit?props.movieToEdit.title:" ",
+                             year:props.movieToEdit?props.movieToEdit.year:" ",
+                             director:props.movieToEdit?props.movieToEdit.director?.name:' ',
                          }}
                          validationSchema={MovieSchema}
                          onSubmit={values => {
-                             // same shape as initial values
-                             //console.log(values);
-                             movieSave(values);
-
-                         }}
+                             saveOrUpdateMovie(values);
+                                                  }}
                      >
                          {({errors, touched}) => (
                              <Form>
@@ -97,7 +125,7 @@ function NewOrUpdateMovieModal(props: {
                                  <Modal.Footer>
                                      <button type="submit"
                                              className={"btn btn-primary"}>
-                                         save
+                                         {props.movieToEdit?"Update":"Save"}
                                      </button>
                                      <Button onClick={props.onHide}>
                                          Cancel

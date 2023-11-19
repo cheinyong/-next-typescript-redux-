@@ -1,6 +1,6 @@
 
 export default interface Director{
-    _id:string,
-    name:string,
-    phoneNo:number
+    _id?:string,
+    name?:string,
+    phoneNo?:number
 }

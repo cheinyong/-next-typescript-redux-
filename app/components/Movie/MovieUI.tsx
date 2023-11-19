@@ -21,7 +21,7 @@ export default function MovieUI(props: {
         <div>movie director:{movie.director?.name}</div>
         <div>year:{movie.year}</div>
         <div className='ms-auto'>
-            <button className='  btn btn-primary'
+            <button className='  btn btn-primary me-4'
                     onClick={btneditHandler}>Edit</button>
 
             <button className='  btn btn-primary'

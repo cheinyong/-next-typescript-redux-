@@ -25,6 +25,12 @@ export const movieSlice = createSlice({
         addMovie: (state,action:PayloadAction<Movie>) => {
 
             state.movies =[...state.movies,action.payload]
+        },
+        editMovie: (state,action:PayloadAction<Movie>) => {
+
+            state.movies =state.movies.map(movie=>
+                                            movie._id==action.payload._id?
+                                                action.payload:movie)
         }},
     extraReducers: (builder) => {
         builder
