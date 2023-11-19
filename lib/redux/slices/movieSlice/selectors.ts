@@ -6,4 +6,4 @@ export const selectMovie = (state: ReduxState) => {
 };
 
 export const getMovieById = (movies:Movie[],id: string) =>
-    movies.find(movie=>movie._id==id)
+    movies.find(movie=>movie._id==id);

@@ -4,9 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
 import {useRouter} from "next/navigation";
 
-export default function MovieUI(props: { movie: Movie }) {
-    const {movie}=props;
+export default function MovieUI(props: {
+    movie: Movie ,
+    editHandler:(movie:Movie)=>void}) {
+    let {movie}=props;
     let router=useRouter();
+
+    const btneditHandler=()=>{
+        props.editHandler(movie)
+    }
     const btnDetailHandler=()=>{
         router.push(`movie/${movie._id}`)
     }
@@ -16,8 +22,10 @@ export default function MovieUI(props: { movie: Movie }) {
         <div>year:{movie.year}</div>
         <div className='ms-auto'>
             <button className='  btn btn-primary'
-                    onClick={btnDetailHandler}>Detail</button>
+                    onClick={btneditHandler}>Edit</button>
 
+            <button className='  btn btn-primary'
+                    onClick={btnDetailHandler}>Detail</button>
         </div>
     </div>);
 }

@@ -11,3 +11,9 @@ export const fetchAllMovie=async ()=>{
     const movies = await result;
     return movies;
 }
+export const saveMovie=async (movie:Movie)=>{
+    const result = await axios.post(API,movie)
+    console.log("axios.get",result);
+    const movies = await result;
+    return movies;
+}

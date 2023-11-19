@@ -7,6 +7,7 @@ import {useRouter} from "next/navigation";
 
 
 export default function MoviePage({ params }: { params: { id: string } }){
+
     const movies = useSelector(selectMovie);
     const movie = getMovieById(movies,params.id);
 
