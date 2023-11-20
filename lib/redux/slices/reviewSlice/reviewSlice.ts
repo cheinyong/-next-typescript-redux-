@@ -22,5 +22,9 @@ export const reviewSlice = createSlice({
 
             state.reviews =action.payload;
         },
+        addReview: (state,action:PayloadAction<Review>) => {
+
+            state.reviews.push(action.payload)
+        },
     }
 })

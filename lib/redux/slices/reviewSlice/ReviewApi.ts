@@ -11,3 +11,10 @@ export const fetchAllReviewByMovieId=async (movieID:String)=>{
     const reviews = await result;
     return reviews;
 }
+
+export const saveReview=async (review:any)=>{
+    const result = await axios.post(API,review)
+    console.log("review post api",result);
+    const reviews = await result;
+    return reviews;
+}

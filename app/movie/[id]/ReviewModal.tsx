@@ -5,22 +5,25 @@ import {Field, Form, Formik} from "formik";
 import Button from "react-bootstrap/Button";
 import React, {useState} from "react";
 import {Rating} from "@smastrom/react-rating";
+import {createReviewAsync, useDispatch} from "@/lib/redux";
+import Review from "@/lib/redux/slices/reviewSlice/Review";
 
 const ReviewSchema = Yup.object().shape({
     review: Yup.string()
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
-        .required('Required'),
-
+        .required('Required')
 
 });
 
 export default function ReviewModal(props: {
     show: boolean,
     onHide: () => void,
+    addReview: (review:any)=>void,
+    movie:Movie
     }){
     const [rating, setRating] = useState(0)
-
+    const dispatch = useDispatch();
     return (<div>
             <Modal show={props.show} onHide={props.onHide}>
                 <Modal.Header closeButton>
@@ -34,11 +37,17 @@ export default function ReviewModal(props: {
                         }}
                         validationSchema={ReviewSchema}
                         onSubmit={values => {
-                            let modal= {
+                            let  model= {
+
                                 ...values,
-                                rating
+                                rating,
+                                movie:props.movie._id
                             }
-                            console.log(modal)
+                            console.log(model);
+                            dispatch(createReviewAsync(model))
+                                .unwrap()
+                                .then(response=>props.onHide())
+
                         }}
                     >
                         {({errors, touched}) => (
@@ -51,9 +60,9 @@ export default function ReviewModal(props: {
                                     <div className={"alert alert-danger"}>{errors.review}</div>
                                 ) : null}
 
-                                <label htmlFor="rating">Rating</label>
-                                <div id="rating">
-                                    <Rating style={{ maxWidth: 70 }}
+                                <label >Rating</label>
+                                <div >
+                                    <Rating style={{ maxWidth: 100}}
                                             value={rating}
                                             onChange={setRating}
                                     />

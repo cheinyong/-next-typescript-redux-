@@ -2,6 +2,7 @@
 "use client";
 import MovieDetail from "@/app/components/Movie/MovieDetail";
 import {
+    createReviewAsync,
     getAllMovieAsync, getAllReviewByMovieAsync,
     getMovieById,
     movieSlice,
@@ -31,7 +32,12 @@ export default function MoviePage({ params }: { params: { id: string } }){
         dispatch(getAllReviewByMovieAsync(movie._id))
     }, []);
 
+    const btnNewReview=()=>{
+        console.log('New Review handler');
 
+        handleShow();
+
+    }
     const btnNewHandler=()=>{
         handleShow();
     }
@@ -48,10 +54,15 @@ export default function MoviePage({ params }: { params: { id: string } }){
             New Review
         </button>
 
+        <ReviewModal
+            movie={movie}
+            addReview={btnNewReview}
+            show={show}
+            onHide={handleClose}/>
 
 
             <ReviewList reviews={reviews}/>
-        <ReviewModal show={show} onHide={handleClose}/>
+
 
         <button type={"button"}
                 className={"btn btn-primary"}
