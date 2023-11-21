@@ -2,7 +2,7 @@
 "use client";
 import MovieDetail from "@/app/components/Movie/MovieDetail";
 import {
-    createReviewAsync,
+    createReviewAsync, deleteReviewAsync,
     getAllMovieAsync, getAllReviewByMovieAsync,
     getMovieById,
     movieSlice,
@@ -16,6 +16,7 @@ import {useRouter} from "next/navigation";
 import {useEffect, useState} from "react";
 import ReviewList from "@/app/components/Movie/ReviewList";
 import ReviewModal from "@/app/movie/[id]/ReviewModal";
+import Review from "@/lib/redux/slices/reviewSlice/Review";
 
 
 export default function MoviePage({ params }: { params: { id: string } }){
@@ -25,6 +26,7 @@ export default function MoviePage({ params }: { params: { id: string } }){
     const reviews=useSelector(selectReview)
 
     const [show, setShow] = useState(false);
+    const [reviewToEdit,setReviewToEdit]=useState(null)
     const dispatch = useDispatch();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -32,17 +34,31 @@ export default function MoviePage({ params }: { params: { id: string } }){
         dispatch(getAllReviewByMovieAsync(movie._id))
     }, []);
 
-    const btnNewReview=()=>{
-        console.log('New Review handler');
 
-        handleShow();
-
-    }
+    // const btnNewReview=()=>{
+    //     console.log('New Review handler');
+    //
+    //     handleShow();
+    //
+    //
+    // }
     const btnNewHandler=()=>{
         handleShow();
+        setReviewToEdit(null)
     }
     const btnBackHandler=()=>{
         router.push('/movie')
+    }
+
+    const editReviewHandler=(review:Review)=>{
+        handleShow();
+        setReviewToEdit(review)
+    }
+
+    const deleteReviewHandler=(review:any)=>{
+        console.log('Delete review ',review);
+        dispatch(deleteReviewAsync(review))
+
     }
     return(<div>
 
@@ -56,12 +72,17 @@ export default function MoviePage({ params }: { params: { id: string } }){
 
         <ReviewModal
             movie={movie}
-            addReview={btnNewReview}
+            //addReview={btnNewReview}
             show={show}
-            onHide={handleClose}/>
+            onHide={handleClose}
+            editReview={reviewToEdit}/>
 
 
-            <ReviewList reviews={reviews}/>
+            <ReviewList
+                showEditReviewModal={editReviewHandler}
+                reviews={reviews}
+                deleteReviewHandler={deleteReviewHandler}
+            />
 
 
         <button type={"button"}
