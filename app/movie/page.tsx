@@ -11,6 +11,7 @@ import Movie from "@/lib/redux/slices/movieSlice/Movie";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import NewOrUpdateMovieModal from "@/app/movie/NewOrUpdateMovieModal";
+import IsAuth from "@/app/components/Auth/IsAuth";
 
 const MySwal = withReactContent(Swal)
 
@@ -18,7 +19,7 @@ const MySwal = withReactContent(Swal)
 
 
 
-export default function MovieListPage(){
+ function MovieListPage(){
     const [movieToEdit,newMovieToEdit]=useState(null);
     const [show, setShow] = useState(false);
     const dispatch = useDispatch();
@@ -74,3 +75,5 @@ export default function MovieListPage(){
                    deleteHandler={deleteHandler}/>
     </div>)
 }
+
+export default IsAuth(MovieListPage);

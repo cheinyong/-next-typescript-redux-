@@ -17,9 +17,10 @@ import {useEffect, useState} from "react";
 import ReviewList from "@/app/components/Movie/ReviewList";
 import ReviewModal from "@/app/movie/[id]/ReviewModal";
 import Review from "@/lib/redux/slices/reviewSlice/Review";
+import IsAuth from "@/app/components/Auth/IsAuth";
 
 
-export default function MoviePage({ params }: { params: { id: string } }){
+ function MoviePage({ params }: { params: { id: string } }){
     const router=useRouter();
     const movies = useSelector(selectMovie);
     const movie = getMovieById(movies,params.id);
@@ -92,3 +93,5 @@ export default function MoviePage({ params }: { params: { id: string } }){
         </button>
     </div>)
 }
+
+export default IsAuth(MoviePage);

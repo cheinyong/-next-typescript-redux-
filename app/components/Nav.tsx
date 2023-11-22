@@ -6,10 +6,13 @@ import { usePathname } from 'next/navigation'
 
 /* Instruments */
 import styles from '../styles/layout.module.css'
+import {selectAuth, useSelector} from "@/lib/redux";
 
 export const Nav = () => {
   const pathname = usePathname()
 
+    const auth = useSelector(selectAuth);
+    let login = auth.token;
   return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container">
@@ -23,6 +26,17 @@ export const Nav = () => {
                             Home
                           </Link>
                       </li>
+                      {
+                          !login &&  <li className="nav-item active">
+                              <Link
+                                  className={'nav-link'}
+                                  href="/login"
+                              >
+                                  Login
+                              </Link>
+                          </li>
+                      }
+
                       <li className="nav-item">
                           <Link
                               className={'nav-link'}
@@ -32,14 +46,16 @@ export const Nav = () => {
                           </Link>
                       </li>
 
-                  <li className="nav-item">
-                          <Link
-                            className={'nav-link'}
-                            href="/verify"
-                          >
-                            Verify
-                          </Link>
-                  </li>
+                      {
+                          login &&  <li className="nav-item active">
+                              <Link
+                                  className={'nav-link'}
+                                  href="/logout"
+                              >
+                                  Logout
+                              </Link>
+                          </li>
+                      }
                   </ul>
               </div>
           </div>

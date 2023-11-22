@@ -2,7 +2,7 @@ import Movie from "@/lib/redux/slices/movieSlice/Movie";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface AuthShape {
-    token?:string,
+    token?:string
 }
 
 const initialState : AuthShape = {
@@ -16,9 +16,9 @@ export const authSlice = createSlice({
     reducers: {
         login: (state,action:PayloadAction<string>) => {
 
-            state.token =action.payload;
+            state.token =action.payload.token;
         },
-        logout: (state,action:PayloadAction<string>) => {
+        logout: (state) => {
 
             state.token =undefined;
         },
